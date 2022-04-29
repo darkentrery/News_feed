@@ -1,0 +1,36 @@
+{% extends 'feed/layout.html' %}
+
+
+{% block content %}
+    <div class="features">
+        <h1>News page</h1>
+
+        {% for el in article %}
+            <div class="alert alert-warning">
+                <h3>{{ el.title }}</h3>
+                <p>{{ el.anons }}</p>
+                <p><img src="{{ el.photo.url }}" alt=""></p>
+                <a href="{% url 'news_detail' el.id %}"><li><button class="btn btn-warning">Read detail</button></li></a>
+            </div>
+
+        {% endfor %}
+
+        <nav class="list-pages">
+            <ul>
+                {% for el in paginator.page_range %}
+                {% if page_obj.number == el %}
+                    <li class="page-num page-num-selected">{{ el }}</li>
+                {% else %}
+                    <li class="page-num page-num-unselected"><a href="?page={{ el }}"><button class="btn btn-page">{{ el }}</button></a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+
+        </nav>
+
+    </div>
+
+
+
+
+{% endblock %}

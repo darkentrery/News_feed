@@ -1,0 +1,47 @@
+version: "3.3"
+
+services:
+  postgres:
+    image: postgres:13.3
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: "habrdb"
+      POSTGRES_USER: "habrpguser"
+      POSTGRES_PASSWORD: "pgpwd4habr"
+    ports:
+      - "5432:5432"
+
+  web:
+    build:
+      context: news_site
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./:/news_site/
+    ports:
+      - 8000:8000
+    env_file:
+      - news_site/.env.dev
+    depends_on:
+      - postgres
+
+  liquibase:
+    build:
+      context: liquibase
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/liquibase/
+    depends_on:
+      - postgres
+    ports:
+      - 8001:8001
+
+
+
+volumes:
+  postgres_data:
+  liquibase:
+
+
+

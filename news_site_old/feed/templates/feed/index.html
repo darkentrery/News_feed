@@ -1,0 +1,19 @@
+{% extends 'feed/layout.html' %}
+
+
+{% block contend %}
+    <div>
+
+        {% for el in news %}
+            <div class="alert alert-warning">
+                <h3>{{ el.title }}</h3>
+                <p>{{ el.anons }}</p>
+            </div>
+
+        {% endfor %}
+    </div>
+
+
+
+
+{% endblock %}
