@@ -1,5 +1,5 @@
 from .models import Articles
-from django.forms import ModelForm, TextInput, DateTimeInput, Textarea, ImageField
+from django.forms import ModelForm, TextInput, DateTimeInput, Textarea
 
 class ArticleForm(ModelForm):
     class Meta:

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views.generic import DetailView
 from .models import Articles
 from .forms import ArticleForm
 from django.views.generic import DetailView, ListView
