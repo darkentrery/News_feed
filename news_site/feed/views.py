@@ -30,7 +30,7 @@ def index(request):
 def create(request):
     error = ''
     if request.method == 'POST':
-        form = ArticleForm(request.POST)
+        form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('home')

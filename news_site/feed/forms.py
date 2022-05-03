@@ -1,10 +1,10 @@
 from .models import Articles
-from django.forms import ModelForm, TextInput, DateTimeInput, Textarea
+from django.forms import ModelForm, TextInput, DateTimeInput, Textarea, ImageField
 
 class ArticleForm(ModelForm):
     class Meta:
         model = Articles
-        fields = ['title', 'anons', 'full_text', 'date']
+        fields = ['title', 'anons', 'full_text', 'date', 'photo']
 
         widgets = {
             "title": TextInput(attrs={
@@ -23,4 +23,5 @@ class ArticleForm(ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Text of article'
             }),
+
         }
