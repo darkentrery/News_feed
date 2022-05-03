@@ -1,29 +1,21 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Articles
+from .models import Article
 from .forms import ArticleForm
 from django.views.generic import DetailView, ListView
 
 
 class NewsDetailView(DetailView):
-
-    model = Articles
+    model = Article
     template_name = 'feed/details_view.html'
     context_object_name = 'article'
 
 
 class NewListView(ListView):
     paginate_by = 2
-    model = Articles
+    model = Article
     template_name = 'feed/class_index.html'
     context_object_name = 'article'
-
-
-def index(request):
-    order_news = Articles.objects.order_by('id')
-    news = Articles.objects.order_by('-date')
-    data = {'news': news, 'order_news': order_news}
-    return render(request, 'feed/index.html', data)
 
 
 def create(request):
