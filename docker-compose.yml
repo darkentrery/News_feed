@@ -10,6 +10,7 @@ services:
     ports:
       - 5432:5432
 
+
   web:
     build:
       context: news_site
@@ -39,7 +40,7 @@ services:
 
 volumes:
   postgres_data:
-  #liquibase:
+
 
 
 
