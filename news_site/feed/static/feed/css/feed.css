@@ -106,13 +106,24 @@ main .features ul {
 }
 
 main .features .page-num {
-
     list-style: none;
     align-items: center;
     display: inline-block;
     max-width: 80%;
+}
 
+main .features .form-control {
+    width: 400px;
+}
 
+main .features .form-add-image {
+    align-content: center;
+
+}
+
+main .features .btn-success {
+    background: #d7b255;
+    width: 100px;
 }
 
 .alert-warning {

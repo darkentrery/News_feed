@@ -91,11 +91,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "feed/static",
 ]
 
+STATIC_ROOT = BASE_DIR / "static"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = BASE_DIR / "mediafiles"
 MEDIA_URL = '/media/'
+
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:1337", "http://0.0.0.0:1337", "http://127.0.0.1:1337"]

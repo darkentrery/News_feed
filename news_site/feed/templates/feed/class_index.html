@@ -9,8 +9,8 @@
             <div class="alert alert-warning">
                 <h3>{{ el.title }}</h3>
                 <p>{{ el.anons }}</p>
-                <p>{{ el.date }}</p>
-                <p><img src="{{ el.photo.url }}" alt=""></p>
+                <p>{{ el.date_public }}</p>
+                <p>{% if el.photo.url %}<img src="{{ el.photo.url }}" alt="">{% endif %}</p>
                 <a href="{% url 'news_detail' el.id %}"><li><button class="btn btn-warning">Read detail</button></li></a>
             </div>
 

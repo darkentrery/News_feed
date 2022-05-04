@@ -19,6 +19,7 @@ class NewListView(ListView):
 
 def create(request):
     error = ''
+    form = ArticleForm()
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
@@ -26,7 +27,7 @@ def create(request):
             return redirect('home')
         else:
             error = "Incorrect form"
-    form = ArticleForm()
+
     data = {
         'form': form,
         'error': error

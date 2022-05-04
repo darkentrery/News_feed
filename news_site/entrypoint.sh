@@ -13,7 +13,5 @@ fi
 
 python manage.py makemigrations
 python manage.py migrate
-#liquibase --changeLogFile=mydatabase_changelog.xml update
-echo "Liquibase started"
 
 exec "$@"
