@@ -39,16 +39,14 @@ services:
     depends_on:
       - web
 
-  #liquibase:
-  #  build:
-  #    context: liquibase
-  #    dockerfile: Dockerfile
-  #  volumes:
-  #   - ./:/liquibase/
-  #  depends_on:
-  #    - postgres
-  #  ports:
-  #   - 8001:8001
+  liquibase:
+    build:
+     context: liquibase
+     dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    ports:
+     - 8001:8001
 
 
 
@@ -56,6 +54,7 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+
 
 
 

@@ -1,3 +1,4 @@
+id,name,content_type_id,codename
 1,Can add log entry,1,add_logentry
 2,Can change log entry,1,change_logentry
 3,Can delete log entry,1,delete_logentry

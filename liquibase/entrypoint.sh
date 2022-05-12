@@ -4,7 +4,7 @@ if [ "$DATABASE" = "postgres" ]
 then
     echo "Waiting for postgres..."
 
-    while ! nc -z $SQL_HOST $SQL_PORT; do
+    while ! nc -z $DATABASE $DATABASE_PORT; do
       sleep 0.1
     done
 
@@ -12,7 +12,7 @@ then
 fi
 
 
-#liquibase --changeLogFile=mydatabase_changelog.xml update
+liquibase "--defaultsFile=/liquibase/liquibase.properties" update
 echo "Liquibase started"
 
 exec "$@"

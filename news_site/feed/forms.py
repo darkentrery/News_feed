@@ -1,6 +1,12 @@
 from .models import Article
-from django.forms import ModelForm, TextInput, Textarea, DateTimeInput, FileInput, SplitDateTimeWidget
+from django.forms import ModelForm, TextInput, Textarea, DateTimeInput, FileInput, SplitDateTimeWidget, TimeInput, DateInput
+from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget, AdminSplitDateTime
 import datetime
+
+
+class XDSoftDateTimePickerInput(DateTimeInput):
+    template_name = 'widgets/xdsoft_datetimepicker.html'
+
 
 class ArticleForm(ModelForm):
     class Meta:
@@ -20,7 +26,8 @@ class ArticleForm(ModelForm):
             "date": DateTimeInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Date of public',
-                #'type': 'date',
+
+                'type': 'date',
             }),
             "full_text": Textarea(attrs={
                 'class': 'form-control',

@@ -18,21 +18,20 @@ class NewListView(ListView):
 
 
 def create(request):
-    error = ''
-    form = ArticleForm()
-    if request.method == 'POST':
-        form = ArticleForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-        else:
-            error = "Incorrect form"
+    form = ArticleForm(request.POST or None, files=request.FILES or None)
+    #if request.method == 'POST':
+        #form = ArticleForm(request.POST, request.FILES)
+    if not form.is_valid():
+        error = "Incorrect form"
+        data = {
+            'form': form,
+            'error': error
+        }
+        return render(request, 'feed/create.html', data)
 
-    data = {
-        'form': form,
-        'error': error
-    }
-    return render(request, 'feed/create.html', data)
+    form.save()
+    return redirect('home')
+
 
 
 def about(request):

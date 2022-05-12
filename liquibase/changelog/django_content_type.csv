@@ -1,3 +1,4 @@
+id,app_label,model
 1,admin,logentry
 2,auth,permission
 3,auth,group
