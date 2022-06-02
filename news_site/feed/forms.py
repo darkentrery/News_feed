@@ -39,3 +39,4 @@ class ArticleForm(ModelForm):
             }),
 
         }
+

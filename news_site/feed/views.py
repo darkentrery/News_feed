@@ -1,7 +1,8 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .models import Article
 from .forms import ArticleForm
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, CreateView
 
 
 class NewsDetailView(DetailView):
@@ -17,22 +18,31 @@ class NewListView(ListView):
     context_object_name = 'article'
 
 
-def create(request):
-    form = ArticleForm(request.POST or None, files=request.FILES or None)
-    #if request.method == 'POST':
-        #form = ArticleForm(request.POST, request.FILES)
-    if not form.is_valid():
-        error = "Incorrect form"
-        data = {
-            'form': form,
-            'error': error
-        }
-        return render(request, 'feed/create.html', data)
+class CreateNewsView(CreateView):
+    template_name = 'feed/create.html'
+    form_class = ArticleForm
+    success_url = "/"
+    model = Article
 
-    form.save()
-    return redirect('home')
+
+# def create(request):
+#     form = ArticleForm(request.POST or None, files=request.FILES or None)
+#     #if request.method == 'POST':
+#         #form = ArticleForm(request.POST, request.FILES)
+#     if not form.is_valid():
+#         error = "Incorrect form"
+#         data = {
+#             'form': form,
+#             'error': error
+#         }
+#         return render(request, 'feed/create.html', data)
+#
+#     form.save()
+#     return redirect('home')
 
 
 
 def about(request):
+    HttpResponse()
+    JsonResponse
     return render(request, 'feed/index.html')

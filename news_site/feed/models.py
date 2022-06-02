@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Article(models.Model):
     title = models.CharField('Title', max_length=100)
     anons = models.CharField('Anons', max_length=250)
