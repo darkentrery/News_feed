@@ -17,7 +17,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'feed',
+    'feed.apps.FeedConfig',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -28,6 +30,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -103,3 +106,11 @@ MEDIA_URL = '/media/'
 
 CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = ["http://localhost:1337", "http://0.0.0.0:1337", "http://127.0.0.1:1337"]
+
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+       'http://localhost:3000',
+    'http://localhost:3002',
+    'http://localhost:3003',
+)
