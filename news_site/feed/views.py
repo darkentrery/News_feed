@@ -32,6 +32,10 @@ def articles_list(request):
             data = paginator.page(paginator.num_pages)
 
         serializer = ArticleSerializer(data, context={'request': request}, many=True)
+        for ob in serializer.data:
+            ob['photo'] = ob['photo'].replace('/media', ':1337/media')
+            print(f"{ob['photo']=}")
+
         if data.has_next():
             nextPage = data.next_page_number()
         if data.has_previous():
@@ -60,6 +64,9 @@ def articles_detail(request, pk):
 
     if request.method == 'GET':
         serializer = ArticleSerializer(article, context={'request': request})
+
+        serializer.data['photos'] = "1" #serializer.data['photo'].replace('/media', ':1337/media')
+        print(f"{serializer.data=}")
         return Response(serializer.data)
 
     elif request.method == 'PUT':
