@@ -6,10 +6,30 @@ from django.views.generic import DetailView, ListView, CreateView
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
+from rest_framework import status, generics
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import *
+
+
+class ArticleAPIList(generics. ListCreateAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        for ob in serializer.data:
+            if ob['photo']:
+                ob['photo'] = ob['photo'].replace('/media', ':1337/media')
+                print(f"{ob['photo']=}")
+        return Response(serializer.data)
 
 
 @api_view(['GET', 'POST'])
@@ -32,6 +52,7 @@ def articles_list(request):
             data = paginator.page(paginator.num_pages)
 
         serializer = ArticleSerializer(data, context={'request': request}, many=True)
+        print(f"{serializer=}")
         for ob in serializer.data:
             ob['photo'] = ob['photo'].replace('/media', ':1337/media')
             print(f"{ob['photo']=}")
@@ -44,14 +65,16 @@ def articles_list(request):
         return Response({'data': serializer.data, 'count': paginator.count, 'numpages' : paginator.num_pages, 'nextlink': '/api/articles/?page=' + str(nextPage), 'prevlink': '/api/articles/?page=' + str(previousPage)})
 
     elif request.method == 'POST':
+        print(f"{request.data=}")
         serializer = ArticleSerializer(data=request.data)
+        print(f"{serializer=}")
+        print(f"{serializer.is_valid()=}")
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-...
 @api_view(['GET', 'PUT', 'DELETE'])
 def articles_detail(request, pk):
     """
