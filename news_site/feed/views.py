@@ -1,5 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from rest_framework.exceptions import NotFound
+from rest_framework.pagination import PageNumberPagination
+
 from .models import Article
 from .forms import ArticleForm
 from django.views.generic import DetailView, ListView, CreateView
@@ -8,13 +11,18 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status, generics
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from .serializers import *
+
+
+class ProductPagination(PageNumberPagination):
+    page_size = 2
 
 
 class ArticleAPIList(generics. ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    pagination_class = ProductPagination
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -22,14 +30,32 @@ class ArticleAPIList(generics. ListCreateAPIView):
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
+            for ob in serializer.data:
+                if ob['photo']:
+                    ob['photo'] = ob['photo'].replace('/media', ':1337/media')
+                    print(f"{ob['photo']=}")
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
+        print(f"{serializer=}")
         for ob in serializer.data:
             if ob['photo']:
                 ob['photo'] = ob['photo'].replace('/media', ':1337/media')
                 print(f"{ob['photo']=}")
         return Response(serializer.data)
+
+
+class ArticletDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        print(f"{pk=}")
+        object = Article.objects.get(pk=kwargs['pk'])
+        serializer = ArticleSerializer(object)
+        return Response(serializer.data)
+
 
 
 @api_view(['GET', 'POST'])
