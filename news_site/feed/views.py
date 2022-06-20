@@ -32,7 +32,7 @@ class ArticleAPIList(generics. ListCreateAPIView):
             serializer = self.get_serializer(page, many=True)
             for ob in serializer.data:
                 if ob['photo']:
-                    ob['photo'] = ob['photo'].replace('/media', ':1337/media')
+                    # ob['photo'] = ob['photo'].replace('/media', ':1337/media')
                     print(f"{ob['photo']=}")
             return self.get_paginated_response(serializer.data)
 
@@ -40,7 +40,7 @@ class ArticleAPIList(generics. ListCreateAPIView):
         print(f"{serializer=}")
         for ob in serializer.data:
             if ob['photo']:
-                ob['photo'] = ob['photo'].replace('/media', ':1337/media')
+                # ob['photo'] = ob['photo'].replace('/media', ':1337/media')
                 print(f"{ob['photo']=}")
         return Response(serializer.data)
 

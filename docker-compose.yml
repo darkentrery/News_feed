@@ -15,7 +15,7 @@ services:
     build:
       context: news_site
       dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
+#    command: python manage.py runserver 0.0.0.0:8000
     expose:
       - 8000
     volumes:
@@ -34,10 +34,23 @@ services:
     volumes:
       - static_volume:/news_site/static
       - media_volume:/news_site/media
+      - react_volume:/react_front
     ports:
       - 1337:80
     depends_on:
       - web
+
+  frontend:
+    build:
+      context: react_front
+      dockerfile: Dockerfile
+    command: [ "npm", "start" ]
+    volumes:
+      - ./react_front/:/react_front/
+      - react_volume:/react_front
+#      - node-modules:/app/react_front/node_modules
+    expose:
+      - 3000
 
   liquibase:
     build:
@@ -54,6 +67,7 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+  react_volume:
 
 
 
